@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Smart Water Tank Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <svg class="brand-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5c3.6 4.3 6 7.4 6 10.6a6 6 0 0 1-12 0c0-3.2 2.4-6.3 6-10.6z" fill="currentColor"/></svg>
+      <div>
+        <h1>Smart Water Tank</h1>
+        <p>Conservation and tank management</p>
+      </div>
+    </div>
+    <div id="connection" class="pill pill-wait" role="status">Connecting…</div>
+  </header>
+
+  <main class="layout">
+    <!-- Tank gauge -->
+    <section class="card tank-card" aria-labelledby="tank-title">
+      <h2 id="tank-title">Water level</h2>
+      <div class="tank-wrap">
+        <div class="tank" id="tank" role="img" aria-label="Tank level">
+          <div class="water" id="water"></div>
+          <div class="mark mark-high" id="markHigh"><span>High limit</span></div>
+          <div class="mark mark-low" id="markLow"><span>Low limit</span></div>
+        </div>
+        <div class="tank-read">
+          <div class="level-number"><span id="levelValue">--</span><small>%</small></div>
+          <span id="tankBadge" class="badge badge-neutral">No data</span>
+          <p class="muted">Last updated<br><strong id="lastUpdated">Waiting for first reading</strong></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Status and refill -->
+    <section class="stack">
+      <div class="card status-card">
+        <h2>Motor</h2>
+        <div class="motor-row">
+          <span id="motorDot" class="dot dot-off"></span>
+          <strong id="motorText">OFF</strong>
+        </div>
+        <p class="muted">Motor status is simulated. No real motor is controlled.</p>
+      </div>
+
+      <div id="refillCard" class="card refill-card">
+        <h2>Refill request</h2>
+        <p id="refillMessage" class="refill-msg">The tank level is fine. No refill needed.</p>
+        <div class="actions">
+          <button id="approveBtn" class="btn btn-primary" disabled>Approve refill</button>
+          <button id="rejectBtn" class="btn btn-ghost" disabled>Reject</button>
+        </div>
+        <p id="feedback" class="feedback" role="status" aria-live="polite"></p>
+      </div>
+
+      <details class="card test-card">
+        <summary>Send a test reading</summary>
+        <p class="muted">Acts like the microcontroller. Drag the slider, then send.</p>
+        <div class="test-row">
+          <input type="range" id="testSlider" min="0" max="100" value="50" aria-label="Test water level">
+          <output id="testValue">50%</output>
+          <button id="sendBtn" class="btn btn-small">Send reading</button>
+        </div>
+      </details>
+    </section>
+
+    <!-- History -->
+    <section class="card history-card" aria-labelledby="hist-title">
+      <div class="history-head">
+        <h2 id="hist-title">Water-level history</h2>
+        <span class="muted">Last 10 readings</span>
+      </div>
+      <div id="chart" class="chart"></div>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Time</th><th>Level</th><th>Tank</th></tr></thead>
+          <tbody id="historyBody"><tr><td colspan="3" class="muted">No readings yet.</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="/static/script.js"></script>
+</body>
+</html>
